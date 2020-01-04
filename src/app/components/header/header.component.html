@@ -1,0 +1,5 @@
+<header>
+		<h3 (click)="onHeaderClick()">My WeatherApp</h3>
+		<h4 *ngIf="weatherData.isInfoVisible" @animationTriggerName >{{ weatherData.getReceivedWeather().name}}</h4>
+		<h4 *ngIf="weatherData.isNotFound" @animationTriggerName >{{  weatherData.getErrorMessage().status}}</h4>
+</header>

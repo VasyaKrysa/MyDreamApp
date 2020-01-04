@@ -1,0 +1,15 @@
+<table *ngIf="weatherData.getReceivedCityList().length>0">
+    <tr class="big-border">
+        <th >City Name</th>
+        <th >City Id</th>
+        <th ></th>
+    </tr>
+    <tr *ngFor="let city of weatherData.getReceivedCityList(); let i = index">
+      <th>{{city.name}}</th>
+      <th>{{city.id}}</th>
+      <th class="center">
+        <button (click)="navigateClick(city.name,$event)" >View Forecast</button>
+        <button (click)="deleteClick(i,$event)" >Delete</button>
+      </th>
+    </tr>
+  </table>

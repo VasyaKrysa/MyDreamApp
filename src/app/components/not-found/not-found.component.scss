@@ -1,0 +1,15 @@
+div{
+    text-shadow: 0 0 10px #fff, 0 0 20px rgba(255, 255, 255, 0.651), 0 0 40px rgba(30, 9, 148, 0.836);
+    padding: 0 15vw;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top:0.5%;
+    button{
+        border-radius: 10px;
+        padding:10px;
+        font-size:1.5em;
+        box-shadow: 0 0 10px #fff, 0 0 20px rgba(255, 255, 255, 0.651), 0 0 40px rgba(30, 9, 148, 0.836);
+    }
+}

@@ -1,0 +1,36 @@
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    margin-left: 10vw;
+    margin-right: 10vw;
+    width: 80vw;
+    margin-top: 5vh;
+  
+  td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  th{
+    padding: 8px;
+    
+    button{
+      border-radius: 10px;
+      margin: 0.3vw
+    }
+  }
+  .center{
+    text-align: center;
+  }
+  .big-border{
+    border: 2px solid #000000;
+  }
+  
+  tr:nth-child(even) {
+    background-color: rgba($color: #aaaaaa, $alpha: 0.8);
+  }
+  tr:nth-child(odd) {
+    background-color: rgba($color: #888888, $alpha: 0.8);
+  }
+  
+}

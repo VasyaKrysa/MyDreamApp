@@ -1,0 +1,29 @@
+<div class='main'>
+<form (submit)="submitFunction()" [formGroup]="cityForm">
+	 <div class="grow-two">
+		<input type="text"  formControlName="cityName" 
+		 class="padding-left" placeholder="Enter name of city" />
+		 <label *ngIf="this.cityForm.invalid && this.cityForm.dirty"> The city name is invalid</label>
+	</div>
+		<input  [disabled]="this.cityForm.invalid" [ngClass]="{'hover': !this.cityForm.invalid}"
+		 type="submit" class="grow-one" value="Search"/>
+		
+		<input *ngIf="this.cityForm.dirty" 
+		  type="reset" 
+		  (click)="clearFunc()" 
+		  class="grow-one hover" 
+		  value="Clear"
+		  @animationTriggerName/>
+</form>
+<div class="absolute" *ngIf="cityList.getAutocompleteCityList().length!==0">
+	<ul>
+		<li
+		 *ngFor="let myCity of cityList.getAutocompleteCityList()"
+		  (click)="autocompleteClick(myCity.name)">
+		  {{myCity.name}}
+		  </li>
+	</ul>
+</div>
+</div>
+<app-city-responce></app-city-responce>
+<app-city-list></app-city-list>

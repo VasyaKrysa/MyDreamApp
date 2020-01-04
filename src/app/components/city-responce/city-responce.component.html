@@ -1,0 +1,22 @@
+<div class="main" *ngIf="weatherData.isInfoVisible" @animationTriggerName >
+        <div class="name" >
+            {{weatherData.getReceivedWeather().name}}<br>
+            {{weatherData.getReceivedWeather().lat}} {{weatherData.getReceivedWeather().lon}} 
+        </div>
+        <div class="info" >
+                <img  [src]="weatherData.getReceivedWeather().icon" id="icon"/>
+                <div class="big-font" >{{weatherData.getReceivedWeather().temperature}} °C</div>
+                <div >Today is {{weatherData.getReceivedWeather().weather}} 
+                    <br>Pressure: {{weatherData.getReceivedWeather().pressure}} mm Hg.
+                    <br>Humidity: {{weatherData.getReceivedWeather().humidity}}% </div>
+        </div>
+        <div>
+                <button (click)="onAddClick()">Add to favorites</button>
+        </div>
+</div>
+<div class="main" *ngIf="weatherData.isNotFound" @animationTriggerName >
+        <div class="name" >
+               {{this.weatherData.getErrorMessage().code}}<br>
+               {{this.weatherData.getErrorMessage().status}}
+        </div>
+</div>
