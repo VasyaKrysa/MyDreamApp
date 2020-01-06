@@ -1,5 +1,19 @@
-<app-charts-city-list class="background"></app-charts-city-list >
-<div>
+<div class="configuration" *ngIf="errorMessage.length==0">
+      <button (click)="metrics=!metrics; cities=false;">Customize metrics</button>
+      <div class="metric-configuration" *ngIf="metrics && !cities">
+            <div><input type="checkbox" (click)="checkBoxClick('temperature')" 
+            [checked]="weatherChartsData.CheckBoxValues['temperature']" >Temperature</div>
+            <div><input type="checkbox" (click)="checkBoxClick('pressure')" 
+            [checked]="weatherChartsData.CheckBoxValues['pressure']">Pressure</div>
+            <div><input type="checkbox" (click)="checkBoxClick('humidity')"
+            [checked]="weatherChartsData.CheckBoxValues['humidity']">Humidity</div>
+            <div><input type="checkbox" (click)="checkBoxClick('windSpeed')" 
+            [checked]="weatherChartsData.CheckBoxValues['windSpeed']">Wind Speed</div>
+      </div>
+      <button (click)="cities=!cities; metrics=false">Customize cities</button>
+      <app-charts-city-list class="background" *ngIf="!metrics && cities"></app-charts-city-list >
+</div>
+<div class="charts" *ngIf="errorMessage.length==0">
       <ngx-charts-line-chart
             *ngIf="weatherChartsData.getForecast().temperatureArr.length>0"
             [scheme]="colorScheme"
@@ -59,4 +73,10 @@
             [xAxisLabel]="xAxisLabel"
             [yAxisLabel]="yAxisLabel[3]">
       </ngx-charts-area-chart-stacked>
+</div>
+<div class="main" *ngIf="errorMessage.length>0">
+      <div class="name" >
+        No info for charts!!<br>
+        {{errorMessage}}
+      </div>
 </div>

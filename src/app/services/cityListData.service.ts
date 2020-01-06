@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -24,6 +25,16 @@ export class CityListDataService {
 
   getAutocompleteCityList(): {name: string}[] {
     return this.autocompleteList;
+  }
+
+  isIncludeCity(id: number): boolean {
+    let result = false;
+    this.cityList.forEach(element => {
+      if (element.id === id) {
+        result = true;
+      }
+    });
+    return result;
   }
 
 }

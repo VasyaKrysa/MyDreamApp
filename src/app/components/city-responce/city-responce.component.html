@@ -11,7 +11,8 @@
                     <br>Humidity: {{weatherData.getReceivedWeather().humidity}}% </div>
         </div>
         <div>
-                <button (click)="onAddClick()">Add to favorites</button>
+                <button *ngIf="!cityList.isIncludeCity(weatherData.getReceivedWeather().id)" 
+                (click)="onAddClick()">Add to favorites</button>
         </div>
 </div>
 <div class="main" *ngIf="weatherData.isNotFound" @animationTriggerName >

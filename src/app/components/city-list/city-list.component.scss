@@ -34,3 +34,23 @@ table {
   }
   
 }
+.main
+{
+	margin-top:2%;
+	border-right:4px groove black;
+	border-bottom:4px groove black;
+	background-color: rgba(220,220,220,0.3);
+	margin-left: 10vw;
+	margin-right: 10vw;
+    display:flex;
+	flex-direction: column;
+	justify-content:space-around;
+	align-items: center;
+	box-shadow: 0 0 10px #fff, 0 0 20px rgba(255, 255, 255, 0.651), 0 0 40px rgba(30, 9, 148, 0.836);
+}
+.name{
+  width: 100%;
+  text-align: center;
+ padding: 2vw;
+ font-size:2.5em;
+}

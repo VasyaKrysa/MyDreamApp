@@ -1,30 +1,8 @@
+import { ChartsData } from './chartsData.interface';
+
 export interface WeahterForecast {
-    temperatureArr: {
-        'name': string,
-        'series': {
-          'name': string,
-          'value': number
-        }[]
-      } [];
-      pressureArr: {
-        'name': string,
-        'series': {
-          'name': string,
-          'value': number
-        }[]
-      } [];
-      humidityArr: {
-        'name': string,
-        'series': {
-          'name': string,
-          'value': number
-        }[]
-      } [];
-      windSpeedArr: {
-        'name': string,
-        'series': {
-          'name': string,
-          'value': number
-        }[]
-      } [];
+    temperatureArr: ChartsData[];
+      pressureArr: ChartsData[];
+      humidityArr: ChartsData[];
+      windSpeedArr: ChartsData[];
 }

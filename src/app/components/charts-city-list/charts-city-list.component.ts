@@ -4,6 +4,7 @@ import { CityListDataService } from 'src/app/services/cityListData.service';
 import { WeatherChartsDataService } from 'src/app/services/weatherChartsData.service';
 import { WeatherRequestService } from 'src/app/services/weatherRequest.service';
 
+
 @Component({
   selector: 'app-charts-city-list',
   templateUrl: './charts-city-list.component.html',
@@ -24,12 +25,11 @@ export class ChartsCityListComponent implements OnInit {
     this.weatherChartsData.deleteCity(id);
     event.stopPropagation();
   }
+
   showClick(index: number, event) {
     this.weather.getForecast(index).subscribe(response => {
       this.weatherChartsData.setForecast(response);
     });
     event.stopPropagation();
   }
-
-
 }

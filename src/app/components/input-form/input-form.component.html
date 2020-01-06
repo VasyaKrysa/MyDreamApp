@@ -16,13 +16,11 @@
 		  @animationTriggerName/>
 </form>
 <div class="absolute" *ngIf="cityList.getAutocompleteCityList().length!==0">
-	<ul>
-		<li
-		 *ngFor="let myCity of cityList.getAutocompleteCityList()"
-		  (click)="autocompleteClick(myCity.name)">
-		  {{myCity.name}}
-		  </li>
-	</ul>
+	<div class="autocomplete-list"
+	 *ngFor="let myCity of cityList.getAutocompleteCityList()"
+	  (click)="autocompleteClick(myCity.name)">
+	  {{myCity.name}}
+	</div>
 </div>
 </div>
 <app-city-responce></app-city-responce>

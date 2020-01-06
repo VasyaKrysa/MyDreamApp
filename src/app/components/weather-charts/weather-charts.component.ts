@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { WeatherRequestService } from 'src/app/services/weatherRequest.service';
 import { WeatherChartsDataService } from 'src/app/services/weatherChartsData.service';
 import { CityListDataService } from 'src/app/services/cityListData.service';
+import { MetricsRequestService } from 'src/app/services/metricsRequest.service';
 
 
 @Component({
@@ -13,6 +14,9 @@ import { CityListDataService } from 'src/app/services/cityListData.service';
 })
 export class WeatherChartsComponent implements OnInit, OnDestroy {
 
+  errorMessage = '';
+  metrics = false;
+  cities = false;
   showXAxis = true;
   showYAxis = true;
   gradient = false;
@@ -25,14 +29,13 @@ export class WeatherChartsComponent implements OnInit, OnDestroy {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   };
   legendTitle = 'Cities';
-
-  // line, area
   autoScale = true;
 
   constructor(
      private route: ActivatedRoute,
      private weatherRequest: WeatherRequestService,
      private cityList: CityListDataService,
+     private metricsRequest: MetricsRequestService,
      public weatherChartsData: WeatherChartsDataService
      ) {}
 
@@ -41,7 +44,23 @@ export class WeatherChartsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.onDestroy();
+  }
+
+  onDestroy() {
     this.weatherChartsData.clearAll();
+    if (!this.weatherChartsData.CheckBoxValues.temperature) {
+      this.metricsRequest.deleteMetrics('temperature').subscribe();
+    }
+    if (!this.weatherChartsData.CheckBoxValues.pressure) {
+      this.metricsRequest.deleteMetrics('pressure').subscribe();
+    }
+    if (!this.weatherChartsData.CheckBoxValues.humidity) {
+      this.metricsRequest.deleteMetrics('humidity').subscribe();
+    }
+    if (!this.weatherChartsData.CheckBoxValues.windSpeed) {
+      this.metricsRequest.deleteMetrics('windSpeed').subscribe();
+    }
   }
 
   onLoad() {
@@ -50,8 +69,26 @@ export class WeatherChartsComponent implements OnInit, OnDestroy {
       const id = this.cityList.getReceivedCityList().find(element => element.name === name).id;
       this.weatherRequest.getForecast(id).subscribe(response => {
           this.weatherChartsData.setForecast(response);
-      });
+          this.errorMessage = '';
+      }, error => this.errorMessage = error.statusText);
     }
   }
 
+  checkBoxClick(metricName: string) {
+    if (this.weatherChartsData.CheckBoxValues[metricName]) {
+      const metrics = this.metricsRequest.toMetricsDataConverter(
+        this.weatherChartsData.getForecast()[metricName + 'Arr']);
+      this.metricsRequest.setMetrics(metrics, metricName).subscribe();
+      this.weatherChartsData.getForecast()[metricName + 'Arr'] = [];
+      this.weatherChartsData.updateCharts();
+      this.weatherChartsData.CheckBoxValues[metricName] = false;
+    } else {
+      this.metricsRequest.getMetrics(metricName).subscribe(response => {
+        this.weatherChartsData.getForecast()[metricName + 'Arr'] =
+        this.metricsRequest.toChartsDataConverter(response);
+        this.weatherChartsData.updateCharts();
+        this.weatherChartsData.CheckBoxValues[metricName] = true;
+      });
+    }
+  }
 }

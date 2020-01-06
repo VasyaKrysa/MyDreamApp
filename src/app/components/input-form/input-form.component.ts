@@ -32,9 +32,10 @@ import { WeatherChartsDataService } from 'src/app/services/weatherChartsData.ser
     ]
 })
 export class InputFormComponent implements OnInit {
+
   cityForm: FormGroup = new FormGroup({
     cityName: new FormControl('', [Validators.required, this.validator.cityNameValidator])
-});
+  });
 
 
   constructor(
@@ -74,7 +75,7 @@ export class InputFormComponent implements OnInit {
         if (value !== '') {
           this.weatherApiRequest.getCityName(value).subscribe(response => {
             this.cityList.setAutocompleteCityList(response);
-           });
+           }, error => console.log(error));
           } else {
             this.cityList.setAutocompleteCityList([]);
           }

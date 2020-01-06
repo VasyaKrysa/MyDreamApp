@@ -1,7 +1,13 @@
+import { Injectable } from '@angular/core';
+
 import { IWeather } from '../interfaces/weather.interface';
 
 
+@Injectable({
+    providedIn: 'root'
+  })
 export class WeatherDataService {
+
     private receivedWeather: IWeather = {
         name: '',
         id: 0,
@@ -13,6 +19,7 @@ export class WeatherDataService {
         pressure: 0,
         humidity: 0
     };
+
     private errorMessage = {code: 0, status: 'NoStatus' };
 
     isInfoVisible = false;
@@ -40,6 +47,7 @@ export class WeatherDataService {
     getErrorMessage() {
         return this.errorMessage;
     }
+
     setErrorMessage(code: number, status: string) {
         this.errorMessage.code = code;
         this.errorMessage.status = status;

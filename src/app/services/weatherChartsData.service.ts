@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 
 import { WeahterForecast } from '../interfaces/weahterForecast.interface';
-import { Subject } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class WeatherChartsDataService {
-
-  constructor() { }
 
   private citiesForecast: WeahterForecast = {
     temperatureArr: [],
@@ -16,7 +14,38 @@ export class WeatherChartsDataService {
     humidityArr: [],
     windSpeedArr: []
   };
-  private idCitiesAded: number[] = [];
+
+  CheckBoxValues = {
+    temperature : true,
+    pressure : true,
+    humidity : true,
+    windSpeed : true
+  };
+
+  constructor() { }
+
+  private setMetric(response: any, metric: string) {
+    if (this.CheckBoxValues[metric]) {
+      this.citiesForecast[metric + 'Arr'].push({
+        name: response.rootElement.city.name,
+        id: response.rootElement.city.id,
+          series: []});
+      response.rootElement.list.forEach(element => {
+        let tempValue = element.main.temp;
+        if (metric === 'pressure') {
+          tempValue = element.main.pressure;
+        } else if (metric === 'humidity') {
+          tempValue = element.main.humidity;
+        } else if (metric === 'windSpeed') {
+          tempValue = element.wind.speed;
+        }
+        this.citiesForecast[metric + 'Arr'][this.citiesForecast[metric + 'Arr'].length - 1].series.push({
+            name: element.dt_txt,
+            value: tempValue
+        });
+      });
+    }
+  }
 
   updateCharts() {
     this.citiesForecast.temperatureArr = [...this.citiesForecast.temperatureArr];
@@ -24,31 +53,51 @@ export class WeatherChartsDataService {
     this.citiesForecast.pressureArr = [...this.citiesForecast.pressureArr];
     this.citiesForecast.windSpeedArr = [...this.citiesForecast.windSpeedArr];
   }
+
   getForecast(): WeahterForecast {
     return this.citiesForecast;
   }
-  isHaveCity(id: number): boolean {
+
+  isHaveCityMetrics(id: number, metric: string): boolean {
     let result = false;
-    this.idCitiesAded.forEach(item => {
-      if (item === id) {
+    this.citiesForecast[metric + 'Arr'].forEach(item => {
+      if (item.id === id) {
       result = true;
       }
     });
     return result;
   }
+
+  isHaveCity(id: number): boolean {
+    let result = false;
+    result = this.isHaveCityMetrics(id, 'temperature');
+    if (!result) {
+      result = this.isHaveCityMetrics(id, 'pressure');
+    }
+    if (!result) {
+      result = this.isHaveCityMetrics(id, 'humidity');
+    }
+    if (!result) {
+      result = this.isHaveCityMetrics(id, 'windSpeed');
+    }
+    return result;
+  }
+
+  deleteMetricCity(id: number, metric: string) {
+    const index = this.citiesForecast[metric + 'Arr'].findIndex(item => item.id === id);
+    if ( index >= 0) {
+      this.citiesForecast[metric + 'Arr'].splice(index, 1);
+    }
+  }
+
   deleteCity(id: number) {
-    this.idCitiesAded.forEach(item => {
-      if (item === id) {
-        const index = this.idCitiesAded.indexOf(item);
-        this.citiesForecast.temperatureArr.splice(index, 1);
-        this.citiesForecast.pressureArr.splice(index, 1);
-        this.citiesForecast.humidityArr.splice(index, 1);
-        this.citiesForecast.windSpeedArr.splice(index, 1);
-        this.idCitiesAded.splice(index, 1);
-      }
-    });
+    this.deleteMetricCity(id, 'temperature');
+    this.deleteMetricCity(id, 'pressure');
+    this.deleteMetricCity(id, 'humidity');
+    this.deleteMetricCity(id, 'windSpeed');
     this.updateCharts();
   }
+
   clearAll() {
     this.citiesForecast = {
       temperatureArr: [],
@@ -56,36 +105,13 @@ export class WeatherChartsDataService {
       humidityArr: [],
       windSpeedArr: []
     };
-    this.idCitiesAded = [];
   }
+
   setForecast(response: any) {
-    this.citiesForecast.temperatureArr.push({name: response.rootElement.city.name, series: []});
-    this.citiesForecast.pressureArr.push({name: response.rootElement.city.name, series: []});
-    this.citiesForecast.humidityArr.push({name: response.rootElement.city.name, series: []});
-    this.citiesForecast.windSpeedArr.push({name: response.rootElement.city.name, series: []});
-
-    this.idCitiesAded.push(response.rootElement.city.id);
-
-    const elemCount = this.citiesForecast.temperatureArr.length;
-
-    response.rootElement.list.forEach(element => {
-      this.citiesForecast.temperatureArr[elemCount - 1].series.push({
-        name: element.dt_txt,
-        value: element.main.temp
-      });
-      this.citiesForecast.pressureArr[elemCount - 1].series.push({
-        name: element.dt_txt,
-        value: element.main.pressure
-      });
-      this.citiesForecast.humidityArr[elemCount - 1].series.push({
-        name: element.dt_txt,
-        value: element.main.humidity
-      });
-      this.citiesForecast.windSpeedArr[elemCount - 1].series.push({
-        name: element.dt_txt,
-        value: element.wind.speed
-      });
-    });
+    this.setMetric(response, 'temperature');
+    this.setMetric(response, 'pressure');
+    this.setMetric(response, 'humidity');
+    this.setMetric(response, 'windSpeed');
     this.updateCharts();
   }
 }

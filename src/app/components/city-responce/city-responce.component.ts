@@ -6,7 +6,6 @@ import {
   transition
 } from '@angular/animations';
 
-import { WeatherRequestService } from '../../services/weatherRequest.service';
 import { WeatherDataService } from 'src/app/services/weatherData.service';
 import { CityListDataService } from 'src/app/services/cityListData.service';
 import { WeatherApiRequestService } from 'src/app/services/weatherApiRequest.service';
@@ -32,10 +31,9 @@ import { WeatherApiRequestService } from 'src/app/services/weatherApiRequest.ser
 export class CityResponceComponent implements OnInit {
 
   constructor(
-    private weatherRequest: WeatherRequestService,
+    private weatherApi: WeatherApiRequestService,
     public weatherData: WeatherDataService,
-    private cityList: CityListDataService,
-    private weatherApi: WeatherApiRequestService
+    public cityList: CityListDataService
     ) { }
 
   ngOnInit() {
@@ -47,7 +45,6 @@ export class CityResponceComponent implements OnInit {
        this.weatherData.getReceivedWeather().name).subscribe(
          () => {
           this.weatherApi.getHttpData().subscribe(response => this.cityList.setReceivedCityList(response));
-         }
-       );
+    });
   }
 }

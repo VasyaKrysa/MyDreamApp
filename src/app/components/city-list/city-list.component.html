@@ -12,4 +12,10 @@
         <button (click)="deleteClick(i,$event)" >Delete</button>
       </th>
     </tr>
-  </table>
+</table>
+<div class="main" *ngIf="errorMessage.length>0">
+  <div class="name" >
+    No city list found!!<br>
+    {{errorMessage}}
+  </div>
+</div>

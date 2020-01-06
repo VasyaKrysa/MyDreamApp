@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { WeatherApiRequestService } from 'src/app/services/weatherApiRequest.service';
 import { CityListDataService } from 'src/app/services/cityListData.service';
-import { Router } from '@angular/router';
 
 
 @Component({
@@ -12,17 +12,24 @@ import { Router } from '@angular/router';
 })
 export class CityListComponent implements OnInit {
 
+  errorMessage = '';
+
   constructor(
     private weather: WeatherApiRequestService,
     public weatherData: CityListDataService,
-    private router: Router) { }
+    private router: Router
+    ) { }
 
   ngOnInit() {
     this.loadData();
   }
 
   loadData() {
-    this.weather.getHttpData().subscribe(response => this.weatherData.setReceivedCityList(response));
+    this.weather.getHttpData().subscribe(response => {
+        this.weatherData.setReceivedCityList(response);
+        this.errorMessage = '';
+      },
+    error => this.errorMessage = error.statusText);
   }
 
   deleteClick(index: number, event: any) {
@@ -32,9 +39,9 @@ export class CityListComponent implements OnInit {
     });
     event.stopPropagation();
   }
+
   navigateClick(name, event) {
     this.router.navigate(['forecast', name]);
     event.stopPropagation();
   }
-
 }
