@@ -2,20 +2,21 @@
       <button (click)="metrics=!metrics; cities=false;">Customize metrics</button>
       <div class="metric-configuration" *ngIf="metrics && !cities">
             <div><input type="checkbox" (click)="checkBoxClick('temperature')" 
-            [checked]="weatherChartsData.CheckBoxValues['temperature']" >Temperature</div>
+            [checked]="weatherChartsData.CheckBoxValues.temperature" >Temperature</div>
             <div><input type="checkbox" (click)="checkBoxClick('pressure')" 
-            [checked]="weatherChartsData.CheckBoxValues['pressure']">Pressure</div>
+            [checked]="weatherChartsData.CheckBoxValues.pressure">Pressure</div>
             <div><input type="checkbox" (click)="checkBoxClick('humidity')"
-            [checked]="weatherChartsData.CheckBoxValues['humidity']">Humidity</div>
+            [checked]="weatherChartsData.CheckBoxValues.humidity">Humidity</div>
             <div><input type="checkbox" (click)="checkBoxClick('windSpeed')" 
-            [checked]="weatherChartsData.CheckBoxValues['windSpeed']">Wind Speed</div>
+            [checked]="weatherChartsData.CheckBoxValues.windSpeed">Wind Speed</div>
       </div>
       <button (click)="cities=!cities; metrics=false">Customize cities</button>
       <app-charts-city-list class="background" *ngIf="!metrics && cities"></app-charts-city-list >
 </div>
-<div class="charts" *ngIf="errorMessage.length==0">
+<div class="charts" *ngIf="errorMessage.length==0 ">
       <ngx-charts-line-chart
-            *ngIf="weatherChartsData.getForecast().temperatureArr.length>0"
+            *ngIf="weatherChartsData.getForecast().temperatureArr.length>0 && 
+            weatherChartsData.CheckBoxValues.temperature "
             [scheme]="colorScheme"
             [results]="weatherChartsData.getForecast().temperatureArr"
             [gradient]="gradient"
@@ -30,7 +31,8 @@
             [autoScale]="autoScale">
       </ngx-charts-line-chart>
       <ngx-charts-area-chart
-            *ngIf="weatherChartsData.getForecast().pressureArr.length>0"
+            *ngIf="weatherChartsData.getForecast().pressureArr.length>0 && 
+            weatherChartsData.CheckBoxValues.pressure"
             [scheme]="colorScheme"
             [results]="weatherChartsData.getForecast().pressureArr"
             [gradient]="gradient"
@@ -45,7 +47,8 @@
             [autoScale]="autoScale">
       </ngx-charts-area-chart>
       <ngx-charts-polar-chart
-            *ngIf="weatherChartsData.getForecast().humidityArr.length>0"
+            *ngIf="weatherChartsData.getForecast().humidityArr.length>0 && 
+            weatherChartsData.CheckBoxValues.humidity"
             [scheme]="colorScheme"
             [results]="weatherChartsData.getForecast().humidityArr"
             [gradient]="gradient"
@@ -60,7 +63,8 @@
             [autoScale]="autoScale">
       </ngx-charts-polar-chart>
       <ngx-charts-area-chart-stacked
-            *ngIf="weatherChartsData.getForecast().windSpeedArr.length>0"
+            *ngIf="weatherChartsData.getForecast().windSpeedArr.length>0 && 
+            weatherChartsData.CheckBoxValues.windSpeed"
             [scheme]="colorScheme"
             [results]="weatherChartsData.getForecast().windSpeedArr"
             [gradient]="gradient"

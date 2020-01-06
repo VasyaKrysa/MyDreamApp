@@ -1,5 +1,5 @@
 export interface MetricsRequestData {
     'cityId': number;
-    'date': string;
+    'date': Date;
     'value': number;
 }

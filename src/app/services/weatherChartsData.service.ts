@@ -25,7 +25,6 @@ export class WeatherChartsDataService {
   constructor() { }
 
   private setMetric(response: any, metric: string) {
-    if (this.CheckBoxValues[metric]) {
       this.citiesForecast[metric + 'Arr'].push({
         name: response.rootElement.city.name,
         id: response.rootElement.city.id,
@@ -44,7 +43,6 @@ export class WeatherChartsDataService {
             value: tempValue
         });
       });
-    }
   }
 
   updateCharts() {

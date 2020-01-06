@@ -79,16 +79,9 @@ export class WeatherChartsComponent implements OnInit, OnDestroy {
       const metrics = this.metricsRequest.toMetricsDataConverter(
         this.weatherChartsData.getForecast()[metricName + 'Arr']);
       this.metricsRequest.setMetrics(metrics, metricName).subscribe();
-      this.weatherChartsData.getForecast()[metricName + 'Arr'] = [];
-      this.weatherChartsData.updateCharts();
       this.weatherChartsData.CheckBoxValues[metricName] = false;
     } else {
-      this.metricsRequest.getMetrics(metricName).subscribe(response => {
-        this.weatherChartsData.getForecast()[metricName + 'Arr'] =
-        this.metricsRequest.toChartsDataConverter(response);
-        this.weatherChartsData.updateCharts();
-        this.weatherChartsData.CheckBoxValues[metricName] = true;
-      });
+      this.weatherChartsData.CheckBoxValues[metricName] = true;
     }
   }
 }
